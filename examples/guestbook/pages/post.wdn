@@ -1,0 +1,10 @@
+<?wdn
+require_login();
+if (request_method() !== "POST") { http_response_code(405); exit("Method not allowed"); }
+$body = trim($_POST["body"] ?? "");
+if ($body === "" || strlen($body) > 1000) {
+    http_response_code(422);
+    exit("Message must be 1-1000 characters");
+}
+db_exec("INSERT INTO messages (author, body, created) VALUES (?, ?, ?)", [current_user(), $body, time()]);
+redirect("/");

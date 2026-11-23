@@ -1,0 +1,28 @@
+<?wdn
+$error = "";
+if (request_method() === "POST") {
+    $email = strtolower(trim($_POST["email"] ?? ""));
+    $pw = $_POST["password"] ?? "";
+    if (!validate_email($email)) {
+        $error = "Invalid email";
+    } elseif (strlen($pw) < 10) {
+        $error = "Password must be at least 10 characters";
+    } elseif (db_one("SELECT id FROM users WHERE email = ?", [$email]) !== null) {
+        $error = "Email already registered";
+    } else {
+        db_exec("INSERT INTO users (email, pw) VALUES (?, ?)", [$email, password_hash($pw)]);
+        session_regenerate();
+        session_set("user", $email);
+        redirect("/");
+    }
+}
+include "pages/_layout_top.wdn";
+?>
+<h1>Register</h1>
+<?wdn if ($error !== ""): ?><p class="error"><?= $error ?></p><?wdn endif; ?>
+<form method="post">
+  <?= csrf_field() ?>
+  <input name="email" type="email" value="<?= $_POST['email'] ?? '' ?>" required>
+  <input name="password" type="password" required>
+  <button>Register</button>
+</form></body></html>

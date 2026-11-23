@@ -1,0 +1,35 @@
+[Unit]
+Description=Warden web application
+After=network.target
+
+[Service]
+Type=simple
+User=warden
+Group=warden
+WorkingDirectory=/srv/warden
+Environment=WARDEN_APP=/srv/app
+ExecStart=/srv/warden/venv/bin/gunicorn -c deploy/gunicorn.conf.py deploy.wsgi:app
+Restart=on-failure
+RestartSec=2
+
+# sandboxing
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/app/data /var/log/warden
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+SystemCallFilter=@system-service
+CapabilityBoundingSet=
+MemoryMax=1G
+TasksMax=256
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,3 @@
+<?wdn if (request_method() !== "POST") { redirect("/"); } ?>
+<p>You said: <?= $_POST["msg"] ?? "" ?></p>
+<a href="/">Back</a>

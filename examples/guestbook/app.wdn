@@ -1,0 +1,20 @@
+<?wdn
+include "lib/db.wdn";
+
+// JSON API: returning an array sends JSON automatically
+route("GET", "/api/messages", function($req) {
+    return db_query("SELECT id, author, body FROM messages ORDER BY id DESC LIMIT 50");
+});
+
+route("GET", "/api/messages/{id:int}", function($req) {
+    $row = db_one("SELECT id, author, body FROM messages WHERE id = ?", [int($req["params"]["id"])]);
+    if ($row === null) {
+        respond_json(["error" => "not found"], 404);
+    }
+    return $row;
+});
+
+route("GET", "/hello/{name}", function($req) {
+    // the name is attacker-controlled: it is HTML-escaped automatically
+    return "<h1>Hello, " . $req["params"]["name"] . "!</h1>";
+});

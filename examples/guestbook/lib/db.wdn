@@ -1,0 +1,14 @@
+<?wdn
+// Shared bootstrap: schema + helpers. Included by app.wdn on every request.
+db_exec("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT UNIQUE NOT NULL, pw TEXT NOT NULL)");
+db_exec("CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY, author TEXT NOT NULL, body TEXT NOT NULL, created INTEGER NOT NULL)");
+
+function current_user() {
+    return session_get("user");
+}
+
+function require_login() {
+    if (current_user() === null) {
+        redirect("/login");
+    }
+}

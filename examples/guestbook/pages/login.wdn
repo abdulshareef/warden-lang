@@ -1,0 +1,22 @@
+<?wdn
+$error = "";
+if (request_method() === "POST") {
+    $email = strtolower(trim($_POST["email"] ?? ""));
+    $user = db_one("SELECT email, pw FROM users WHERE email = ?", [$email]);
+    if ($user !== null && password_verify($_POST["password"] ?? "", $user["pw"])) {
+        session_regenerate();          // prevents session fixation
+        session_set("user", $user["email"]);
+        redirect("/");
+    }
+    $error = "Invalid email or password";
+}
+include "pages/_layout_top.wdn";
+?>
+<h1>Log in</h1>
+<?wdn if ($error !== ""): ?><p class="error"><?= $error ?></p><?wdn endif; ?>
+<form method="post">
+  <?= csrf_field() ?>
+  <input name="email" type="email" required>
+  <input name="password" type="password" required>
+  <button>Log in</button>
+</form></body></html>

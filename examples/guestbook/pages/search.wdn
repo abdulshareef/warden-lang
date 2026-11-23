@@ -1,0 +1,13 @@
+<?wdn include "pages/_layout_top.wdn"; $q = $_GET["q"] ?? ""; ?>
+<h1>Search</h1>
+<form><input name="q" value="<?= $q ?>"><button>Go</button></form>
+<?wdn if ($q !== ""): ?>
+<p>Results for <em><?= $q ?></em>:</p>
+<ul>
+<?wdn foreach (db_query("SELECT author, body FROM messages WHERE body LIKE ? LIMIT 20", ["%" . $q . "%"]) as $m): ?>
+  <li><?= $m["author"] ?>: <?= $m["body"] ?></li>
+<?wdn endforeach; ?>
+</ul>
+<a href="<?= $_GET['back'] ?? '/' ?>">Back</a>
+<?wdn endif; ?>
+</body></html>

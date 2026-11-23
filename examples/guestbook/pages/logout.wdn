@@ -1,0 +1,3 @@
+<?wdn
+session_destroy();
+redirect("/");

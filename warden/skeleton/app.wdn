@@ -1,0 +1,7 @@
+<?wdn
+// Runs at the start of every request. Register routes and shared helpers here.
+// Pages in pages/ are served automatically: /about -> pages/about.wdn
+
+route("GET", "/api/health", function($req) {
+    return ["status" => "ok", "time" => time()];
+});
