@@ -197,4 +197,4 @@ MIT. See [`LICENSE`](LICENSE).
 
 Developed by **Dr. Abdul Shareef Pallivalappil** with the support of **[TALFOR Cybersecurity & Digital Forensics](https://talfor.in)**, Bengaluru.
 
-TALFOR provides digital forensics, incident response, AI security and cybersecurity training. Visit **[talfor.in](https://talfor.in)**.
+TALFOR provides digital forensics, incident response, AI security and cybersecurity products and services. Visit **[talfor.in](https://talfor.in)**.
